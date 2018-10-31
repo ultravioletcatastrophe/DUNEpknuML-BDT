@@ -33,20 +33,11 @@ dataloader.AddBackgroundTree(background, 1.0)
 dataloader.PrepareTrainingAndTestTree(TCut(''),
 		'nTrain_Signal=25000:nTrain_Background=6716:SplitMode=Random:NormMode=NumEvents:!V') # controlling training populations
         #'nTest_Signal=2000:nTest_Background=2000:SplitMode=Random:NormMode=NumEvents:!V') # controlling testing populations
-        ### Lots of parameters here to mess with
-		### keep nTrain values equal to avoid false positives, watch acc and not val_acc because values aren't the same for size
-		### what is NormMode ???? TKTKTKTKTK
 
 # Define model
 model = Sequential()
 
 model.add(Dense(23, kernel_initializer='glorot_uniform', activation='relu', input_dim=n)) #kernel_regularizer=l2(1e-5)
-#model.add(Dense(15, kernel_initializer='glorot_uniform', activation='relu')) #kernel_regularizer=l2(1e-5)
-
-#model.add(Dense(600, kernel_initializer='glorot_uniform', activation='relu', input_dim=n)) #kernel_regularizer=l2(1e-5)
-#model.add(Dense(500, kernel_initializer='glorot_uniform', activation='relu')) #kernel_regularizer=l2(1e-5)
-#model.add(Dense(200, kernel_initializer='glorot_uniform', activation='relu')) #kernel_regularizer=l2(1e-5)
-
 model.add(Dense(2, kernel_initializer='glorot_uniform', activation='softmax'))
 
 # Set loss and optimizer

@@ -7,13 +7,13 @@ signal = data.Get('signal_test')
 background = data.Get('background_test') #load data to evaluate our model against it
 
 TMVA.Tools.Instance()
-TMVA.PyMethodBase.PyInitialize() #need this to make reader work goddamn it fuck what a waste of time
+TMVA.PyMethodBase.PyInitialize()
 reader = TMVA.Reader("Color:!Silent")
 
 branches = {}
 for branch in signal.GetListOfBranches():
 	branchName = branch.GetName()
-	branches[branchName] = array('f', [0]) #WHY???? you can't add double arrays to reader for some reason
+	branches[branchName] = array('f', [0]) #Double arrays break TMVA Reader
 	reader.AddVariable(branchName, branches[branchName])
 	signal.SetBranchAddress(branchName, branches[branchName])
 	background.SetBranchAddress(branchName, branches[branchName])
@@ -25,7 +25,7 @@ hist_background = ROOT.TH1D("output_b","", 200,0,1)
 
 sig = 0
 max_sig = 0
-for i in xrange(signal.GetEntries()):
+for i in xrange(signal.GetEntries()): #fills a histogram with the score given by reader
 	signal.GetEntry(i)
 	k = reader.EvaluateMVA("BDT")
 	#print "Signal " + str(k)
@@ -36,7 +36,7 @@ for i in xrange(signal.GetEntries()):
 
 bkg = 0
 max_bkg = 0
-for i in xrange(background.GetEntries()):
+for i in xrange(background.GetEntries()): #fills a histogram with the score given by reader
 	background.GetEntry(i)
 	k = reader.EvaluateMVA("BDT")
 	#if k <= .75 and k >= .65:
@@ -58,7 +58,7 @@ for x in xrange(bins+1): #check indexing
 	cut_signal.SetBinContent(x,hist_signal.Integral(x,bins))
 	cut_background.SetBinContent(x,hist_background.Integral(x,bins))
 
-c = ROOT.TCanvas()
+c = ROOT.TCanvas() #printing histograms
 hist_signal.Draw("hist")
 hist_background.SetLineColor(ROOT.kRed)
 hist_background.Draw("hist same")
@@ -68,7 +68,6 @@ cut_signal.Draw("hist")
 cut_background.SetLineColor(ROOT.kRed)
 cut_background.Draw("hist same")
 c.SetLogy()
-#cut_signal.SetMinimum(.00005)#TK
 c.Print("cut efficiency.png")
 
 g = ROOT.TGraph()
