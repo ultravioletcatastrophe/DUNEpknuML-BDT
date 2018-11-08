@@ -37,7 +37,7 @@ dataloader.PrepareTrainingAndTestTree(TCut(''),
 # Define model
 model = Sequential()
 
-model.add(Dense(23, kernel_initializer='glorot_uniform', activation='relu', input_dim=n)) #kernel_regularizer=l2(1e-5)
+model.add(Dense(300, kernel_initializer='glorot_uniform', activation='relu', input_dim=n)) #kernel_regularizer=l2(1e-5)
 model.add(Dense(2, kernel_initializer='glorot_uniform', activation='softmax'))
 
 # Set loss and optimizer

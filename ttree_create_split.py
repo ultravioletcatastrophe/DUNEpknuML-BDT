@@ -59,28 +59,28 @@ signal_train_ttree.Branch('dEdx_second', dEdx_s_2, 'dEdx_2/F' )
 signal_train_ttree.Branch('dEdx_third', dEdx_s_3, 'dEdx_3/F' )
 signal_train_ttree.Branch('dEdx_fourth', dEdx_s_4, 'dEdx_4/F' )
 signal_train_ttree.Branch('dEdx_fifth', dEdx_s_5, 'dEdx_5/F' )
-signal_train_ttree.Branch('dEdx_sixth', dEdx_s_6, 'dEdx_1/F' )
-signal_train_ttree.Branch('dEdx_seventh', dEdx_s_7, 'dEdx_2/F' )
-signal_train_ttree.Branch('dEdx_eighth', dEdx_s_8, 'dEdx_3/F' )
-signal_train_ttree.Branch('dEdx_ninth', dEdx_s_9, 'dEdx_4/F' )
-signal_train_ttree.Branch('dEdx_tenth', dEdx_s_10, 'dEdx_5/F' )
+signal_train_ttree.Branch('dEdx_sixth', dEdx_s_6, 'dEdx_6/F' )
+signal_train_ttree.Branch('dEdx_seventh', dEdx_s_7, 'dEdx_7/F' )
+signal_train_ttree.Branch('dEdx_eighth', dEdx_s_8, 'dEdx_8/F' )
+signal_train_ttree.Branch('dEdx_ninth', dEdx_s_9, 'dEdx_9/F' )
+signal_train_ttree.Branch('dEdx_tenth', dEdx_s_10, 'dEdx_10/F' )
 signal_train_ttree.Branch('dEdx_last', dEdx_s_minus_1, 'dEdx_-1/F' )
 signal_train_ttree.Branch('dEdx_second_to_last', dEdx_s_minus_2, 'dEdx_-2/F' )
 signal_train_ttree.Branch('dEdx_third_to_last', dEdx_s_minus_3, 'dEdx_-3/F' )
 signal_train_ttree.Branch('dEdx_fourth_to_last', dEdx_s_minus_4, 'dEdx_-4/F' )
 signal_train_ttree.Branch('dEdx_fifth_to_last', dEdx_s_minus_5, 'dEdx_-5/F' )
-signal_train_ttree.Branch('dEdx_sixth_to_last', dEdx_s_minus_6, 'dEdx_-1/F' )
-signal_train_ttree.Branch('dEdx_seventh_to_last', dEdx_s_minus_7, 'dEdx_-2/F' )
-signal_train_ttree.Branch('dEdx_eighth_to_last', dEdx_s_minus_8, 'dEdx_-3/F' )
-signal_train_ttree.Branch('dEdx_ninth_to_last', dEdx_s_minus_9, 'dEdx_-4/F' )
-signal_train_ttree.Branch('dEdx_tenth_to_last', dEdx_s_minus_10, 'dEdx_-5/F' )
-signal_train_ttree.Branch('suspected_muon', s_longest_track, 'suspected_muon/F' ) #We fill this with the longest track since we are assuming that the muon track will be the longest one
+signal_train_ttree.Branch('dEdx_sixth_to_last', dEdx_s_minus_6, 'dEdx_-6/F' )
+signal_train_ttree.Branch('dEdx_seventh_to_last', dEdx_s_minus_7, 'dEdx_-7/F' )
+signal_train_ttree.Branch('dEdx_eighth_to_last', dEdx_s_minus_8, 'dEdx_-8/F' )
+signal_train_ttree.Branch('dEdx_ninth_to_last', dEdx_s_minus_9, 'dEdx_-9/F' )
+signal_train_ttree.Branch('dEdx_tenth_to_last', dEdx_s_minus_10, 'dEdx_-10/F' )
+#signal_train_ttree.Branch('suspected_muon', s_longest_track, 'suspected_muon/F' ) #We fill this with the longest track since we are assuming that the muon track will be the longest one
 signal_train_ttree.Branch('shortest_track', s_shortest_track, 'shortest_track/F' )
-signal_train_ttree.Branch('len_dEdx', s_len_dEdx, 'len_dEdx/F' )
+#signal_train_ttree.Branch('len_dEdx', s_len_dEdx, 'len_dEdx/F' )
 
 signal_train_ttree.Branch('mean', s_mean_dE_dx, 'mean/F')
 signal_train_ttree.Branch('median', s_median_dE_dx, 'median/F')
-signal_train_ttree.Branch('RMS', s_RMS_dE_dx, 'RMS/F')
+#signal_train_ttree.Branch('RMS', s_RMS_dE_dx, 'RMS/F')
 signal_train_ttree.Branch('std', s_std_dE_dx, 'std/F')
 
 signal_test_ttree.Branch('dEdx_first', dEdx_s_1, 'dEdx_1/F' )
@@ -88,40 +88,45 @@ signal_test_ttree.Branch('dEdx_second', dEdx_s_2, 'dEdx_2/F' )
 signal_test_ttree.Branch('dEdx_third', dEdx_s_3, 'dEdx_3/F' )
 signal_test_ttree.Branch('dEdx_fourth', dEdx_s_4, 'dEdx_4/F' )
 signal_test_ttree.Branch('dEdx_fifth', dEdx_s_5, 'dEdx_5/F' )
-signal_test_ttree.Branch('dEdx_sixth', dEdx_s_6, 'dEdx_1/F' )
-signal_test_ttree.Branch('dEdx_seventh', dEdx_s_7, 'dEdx_2/F' )
-signal_test_ttree.Branch('dEdx_eighth', dEdx_s_8, 'dEdx_3/F' )
-signal_test_ttree.Branch('dEdx_ninth', dEdx_s_9, 'dEdx_4/F' )
-signal_test_ttree.Branch('dEdx_tenth', dEdx_s_10, 'dEdx_5/F' )
+signal_test_ttree.Branch('dEdx_sixth', dEdx_s_6, 'dEdx_6/F' )
+signal_test_ttree.Branch('dEdx_seventh', dEdx_s_7, 'dEdx_7/F' )
+signal_test_ttree.Branch('dEdx_eighth', dEdx_s_8, 'dEdx_8/F' )
+signal_test_ttree.Branch('dEdx_ninth', dEdx_s_9, 'dEdx_9/F' )
+signal_test_ttree.Branch('dEdx_tenth', dEdx_s_10, 'dEdx_10/F' )
 signal_test_ttree.Branch('dEdx_last', dEdx_s_minus_1, 'dEdx_-1/F' )
 signal_test_ttree.Branch('dEdx_second_to_last', dEdx_s_minus_2, 'dEdx_-2/F' )
 signal_test_ttree.Branch('dEdx_third_to_last', dEdx_s_minus_3, 'dEdx_-3/F' )
 signal_test_ttree.Branch('dEdx_fourth_to_last', dEdx_s_minus_4, 'dEdx_-4/F' )
 signal_test_ttree.Branch('dEdx_fifth_to_last', dEdx_s_minus_5, 'dEdx_-5/F' )
-signal_test_ttree.Branch('dEdx_sixth_to_last', dEdx_s_minus_6, 'dEdx_-1/F' )
-signal_test_ttree.Branch('dEdx_seventh_to_last', dEdx_s_minus_7, 'dEdx_-2/F' )
-signal_test_ttree.Branch('dEdx_eighth_to_last', dEdx_s_minus_8, 'dEdx_-3/F' )
-signal_test_ttree.Branch('dEdx_ninth_to_last', dEdx_s_minus_9, 'dEdx_-4/F' )
-signal_test_ttree.Branch('dEdx_tenth_to_last', dEdx_s_minus_10, 'dEdx_-5/F' )
-signal_test_ttree.Branch('suspected_muon', s_longest_track, 'suspected_muon/F' )
+signal_test_ttree.Branch('dEdx_sixth_to_last', dEdx_s_minus_6, 'dEdx_-6/F' )
+signal_test_ttree.Branch('dEdx_seventh_to_last', dEdx_s_minus_7, 'dEdx_-7/F' )
+signal_test_ttree.Branch('dEdx_eighth_to_last', dEdx_s_minus_8, 'dEdx_-8/F' )
+signal_test_ttree.Branch('dEdx_ninth_to_last', dEdx_s_minus_9, 'dEdx_-9/F' )
+signal_test_ttree.Branch('dEdx_tenth_to_last', dEdx_s_minus_10, 'dEdx_-10/F' )
+#signal_test_ttree.Branch('suspected_muon', s_longest_track, 'suspected_muon/F' )
 signal_test_ttree.Branch('shortest_track', s_shortest_track, 'shortest_track/F' )
-signal_test_ttree.Branch('len_dEdx', s_len_dEdx, 'len_dEdx/F' )
+#signal_test_ttree.Branch('len_dEdx', s_len_dEdx, 'len_dEdx/F' )
 
 signal_test_ttree.Branch('mean', s_mean_dE_dx, 'mean/F')
 signal_test_ttree.Branch('median', s_median_dE_dx, 'median/F')
-signal_test_ttree.Branch('RMS', s_RMS_dE_dx, 'RMS/F')
+#signal_test_ttree.Branch('RMS', s_RMS_dE_dx, 'RMS/F')
 signal_test_ttree.Branch('std', s_std_dE_dx, 'std/F')
 
 for entry in signaltree:
 	cut = False
-	for deposit in entry.track_dE_dx:
-		if deposit > 200: #cut on unreasonably high energy deposits
-			cut = True
+	#or deposit in entry.track_dE_dx:
+		#if deposit > 200: #cut on unreasonably high energy deposits
+			#cut = True
 	if entry.n_reco_tracks != 2: #if the number of reconstructed tracks isn't 2, skip
 		cut = True
 	if cut == True:
 		continue
-	
+
+	#if entry.track_mcPDG[0] != -13 and entry.track_mcPDG[0] != 321: #first of two particles is neither a muon or a kaon
+		#cut = True #TKTK
+	#if cut == True:
+		#continue
+
 	longest = 0.
 	longestidx = -1 # last by default
 	for i in xrange(entry.n_reco_tracks): #determines the longest track and its length, along with beginning/ending information
@@ -244,28 +249,28 @@ background_train_ttree.Branch('dEdx_second', dEdx_b_2, 'dEdx_2/F' )
 background_train_ttree.Branch('dEdx_third', dEdx_b_3, 'dEdx_3/F' )
 background_train_ttree.Branch('dEdx_fourth', dEdx_b_4, 'dEdx_4/F' )
 background_train_ttree.Branch('dEdx_fifth', dEdx_b_5, 'dEdx_5/F' )
-background_train_ttree.Branch('dEdx_sixth', dEdx_b_6, 'dEdx_1/F' )
-background_train_ttree.Branch('dEdx_seventh', dEdx_b_7, 'dEdx_2/F' )
-background_train_ttree.Branch('dEdx_eighth', dEdx_b_8, 'dEdx_3/F' )
-background_train_ttree.Branch('dEdx_ninth', dEdx_b_9, 'dEdx_4/F' )
-background_train_ttree.Branch('dEdx_tenth', dEdx_b_10, 'dEdx_5/F' )
+background_train_ttree.Branch('dEdx_sixth', dEdx_b_6, 'dEdx_6/F' )
+background_train_ttree.Branch('dEdx_seventh', dEdx_b_7, 'dEdx_7/F' )
+background_train_ttree.Branch('dEdx_eighth', dEdx_b_8, 'dEdx_8/F' )
+background_train_ttree.Branch('dEdx_ninth', dEdx_b_9, 'dEdx_9/F' )
+background_train_ttree.Branch('dEdx_tenth', dEdx_b_10, 'dEdx_10/F' )
 background_train_ttree.Branch('dEdx_last', dEdx_b_minus_1, 'dEdx_-1/F' )
 background_train_ttree.Branch('dEdx_second_to_last', dEdx_b_minus_2, 'dEdx_-2/F' )
 background_train_ttree.Branch('dEdx_third_to_last', dEdx_b_minus_3, 'dEdx_-3/F' )
 background_train_ttree.Branch('dEdx_fourth_to_last', dEdx_b_minus_4, 'dEdx_-4/F' )
 background_train_ttree.Branch('dEdx_fifth_to_last', dEdx_b_minus_5, 'dEdx_-5/F' )
-background_train_ttree.Branch('dEdx_sixth_to_last', dEdx_b_minus_6, 'dEdx_-1/F' )
-background_train_ttree.Branch('dEdx_seventh_to_last', dEdx_b_minus_7, 'dEdx_-2/F' )
-background_train_ttree.Branch('dEdx_eighth_to_last', dEdx_b_minus_8, 'dEdx_-3/F' )
-background_train_ttree.Branch('dEdx_ninth_to_last', dEdx_b_minus_9, 'dEdx_-4/F' )
-background_train_ttree.Branch('dEdx_tenth_to_last', dEdx_b_minus_10, 'dEdx_-5/F' )
-background_train_ttree.Branch('suspected_muon', b_longest_track, 'suspected_muon/F' )
+background_train_ttree.Branch('dEdx_sixth_to_last', dEdx_b_minus_6, 'dEdx_-6/F' )
+background_train_ttree.Branch('dEdx_seventh_to_last', dEdx_b_minus_7, 'dEdx_-7/F' )
+background_train_ttree.Branch('dEdx_eighth_to_last', dEdx_b_minus_8, 'dEdx_-8/F' )
+background_train_ttree.Branch('dEdx_ninth_to_last', dEdx_b_minus_9, 'dEdx_-9/F' )
+background_train_ttree.Branch('dEdx_tenth_to_last', dEdx_b_minus_10, 'dEdx_-10/F' )
+#background_train_ttree.Branch('suspected_muon', b_longest_track, 'suspected_muon/F' )
 background_train_ttree.Branch('shortest_track', b_shortest_track, 'shortest_track/F' )
-background_train_ttree.Branch('len_dEdx', b_len_dEdx, 'len_dEdx/F' )
+#background_train_ttree.Branch('len_dEdx', b_len_dEdx, 'len_dEdx/F' )
 
 background_train_ttree.Branch('mean', b_mean_dE_dx, 'mean/F')
 background_train_ttree.Branch('median', b_median_dE_dx, 'median/F')
-background_train_ttree.Branch('RMS', b_RMS_dE_dx, 'RMS/F')
+#background_train_ttree.Branch('RMS', b_RMS_dE_dx, 'RMS/F')
 background_train_ttree.Branch('std', b_std_dE_dx, 'std/F')
 
 
@@ -274,39 +279,44 @@ background_test_ttree.Branch('dEdx_second', dEdx_b_2, 'dEdx_2/F' )
 background_test_ttree.Branch('dEdx_third', dEdx_b_3, 'dEdx_3/F' )
 background_test_ttree.Branch('dEdx_fourth', dEdx_b_4, 'dEdx_4/F' )
 background_test_ttree.Branch('dEdx_fifth', dEdx_b_5, 'dEdx_5/F' )
-background_test_ttree.Branch('dEdx_sixth', dEdx_b_6, 'dEdx_1/F' )
-background_test_ttree.Branch('dEdx_seventh', dEdx_b_7, 'dEdx_2/F' )
-background_test_ttree.Branch('dEdx_eighth', dEdx_b_8, 'dEdx_3/F' )
-background_test_ttree.Branch('dEdx_ninth', dEdx_b_9, 'dEdx_4/F' )
-background_test_ttree.Branch('dEdx_tenth', dEdx_b_10, 'dEdx_5/F' )
+background_test_ttree.Branch('dEdx_sixth', dEdx_b_6, 'dEdx_6/F' )
+background_test_ttree.Branch('dEdx_seventh', dEdx_b_7, 'dEdx_7/F' )
+background_test_ttree.Branch('dEdx_eighth', dEdx_b_8, 'dEdx_8/F' )
+background_test_ttree.Branch('dEdx_ninth', dEdx_b_9, 'dEdx_9/F' )
+background_test_ttree.Branch('dEdx_tenth', dEdx_b_10, 'dEdx_10/F' )
 background_test_ttree.Branch('dEdx_last', dEdx_b_minus_1, 'dEdx_-1/F' )
 background_test_ttree.Branch('dEdx_second_to_last', dEdx_b_minus_2, 'dEdx_-2/F' )
 background_test_ttree.Branch('dEdx_third_to_last', dEdx_b_minus_3, 'dEdx_-3/F' )
 background_test_ttree.Branch('dEdx_fourth_to_last', dEdx_b_minus_4, 'dEdx_-4/F' )
 background_test_ttree.Branch('dEdx_fifth_to_last', dEdx_b_minus_5, 'dEdx_-5/F' )
-background_test_ttree.Branch('dEdx_sixth_to_last', dEdx_b_minus_6, 'dEdx_-1/F' )
-background_test_ttree.Branch('dEdx_seventh_to_last', dEdx_b_minus_7, 'dEdx_-2/F' )
-background_test_ttree.Branch('dEdx_eighth_to_last', dEdx_b_minus_8, 'dEdx_-3/F' )
-background_test_ttree.Branch('dEdx_ninth_to_last', dEdx_b_minus_9, 'dEdx_-4/F' )
-background_test_ttree.Branch('dEdx_tenth_to_last', dEdx_b_minus_10, 'dEdx_-5/F' )
-background_test_ttree.Branch('suspected_muon', b_longest_track, 'suspected_muon/F' )
+background_test_ttree.Branch('dEdx_sixth_to_last', dEdx_b_minus_6, 'dEdx_-6/F' )
+background_test_ttree.Branch('dEdx_seventh_to_last', dEdx_b_minus_7, 'dEdx_-7/F' )
+background_test_ttree.Branch('dEdx_eighth_to_last', dEdx_b_minus_8, 'dEdx_-8/F' )
+background_test_ttree.Branch('dEdx_ninth_to_last', dEdx_b_minus_9, 'dEdx_-9/F' )
+background_test_ttree.Branch('dEdx_tenth_to_last', dEdx_b_minus_10, 'dEdx_-10/F' )
+#background_test_ttree.Branch('suspected_muon', b_longest_track, 'suspected_muon/F' )
 background_test_ttree.Branch('shortest_track', b_shortest_track, 'shortest_track/F' )
-background_test_ttree.Branch('len_dEdx', b_len_dEdx, 'len_dEdx/F' )
+#background_test_ttree.Branch('len_dEdx', b_len_dEdx, 'len_dEdx/F' )
 
 background_test_ttree.Branch('mean', b_mean_dE_dx, 'mean/F')
 background_test_ttree.Branch('median', b_median_dE_dx, 'median/F')
-background_test_ttree.Branch('RMS', b_RMS_dE_dx, 'RMS/F')
+#background_test_ttree.Branch('RMS', b_RMS_dE_dx, 'RMS/F')
 background_test_ttree.Branch('std', b_std_dE_dx, 'std/F')
 
 for entry in backgroundtree:
 	cut = False
-	for deposit in entry.track_dE_dx:
-		if deposit > 200: #cut on unreasonably high energy deposits
-			cut = True
+	#for deposit in entry.track_dE_dx:
+		#if deposit > 200: #cut on unreasonably high energy deposits
+			#cut = True
 	if entry.n_reco_tracks != 2: #if the number of reconstructed tracks isn't 2, skip
 		cut = True
 	if cut == True:
 		continue
+
+	#if entry.track_mcPDG[0] != -13 and entry.track_mcPDG[0] != 321: #first of two particles is neither a muon or a kaon
+		#cut = True #TKTK
+	#if cut == True:
+		#continue
 	
 	longest = 0.
 	longestidx = -1 # last by default
