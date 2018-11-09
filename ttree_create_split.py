@@ -54,6 +54,10 @@ s_median_dE_dx = array('f', [0] )
 s_RMS_dE_dx = array('f', [0] )
 s_std_dE_dx = array('f', [0] )
 
+s_n_showers = array('f', [0])
+s_EM_e = array('f', [0])
+s_trk_e = array('f', [0])
+
 signal_train_ttree.Branch('dEdx_first', dEdx_s_1, 'dEdx_1/F' ) #adding branches to the ttrees
 signal_train_ttree.Branch('dEdx_second', dEdx_s_2, 'dEdx_2/F' )
 signal_train_ttree.Branch('dEdx_third', dEdx_s_3, 'dEdx_3/F' )
@@ -74,14 +78,18 @@ signal_train_ttree.Branch('dEdx_seventh_to_last', dEdx_s_minus_7, 'dEdx_-7/F' )
 signal_train_ttree.Branch('dEdx_eighth_to_last', dEdx_s_minus_8, 'dEdx_-8/F' )
 signal_train_ttree.Branch('dEdx_ninth_to_last', dEdx_s_minus_9, 'dEdx_-9/F' )
 signal_train_ttree.Branch('dEdx_tenth_to_last', dEdx_s_minus_10, 'dEdx_-10/F' )
-#signal_train_ttree.Branch('suspected_muon', s_longest_track, 'suspected_muon/F' ) #We fill this with the longest track since we are assuming that the muon track will be the longest one
+signal_train_ttree.Branch('suspected_muon', s_longest_track, 'suspected_muon/F' ) #We fill this with the longest track since we are assuming that the muon track will be the longest one
 signal_train_ttree.Branch('shortest_track', s_shortest_track, 'shortest_track/F' )
-#signal_train_ttree.Branch('len_dEdx', s_len_dEdx, 'len_dEdx/F' )
+signal_train_ttree.Branch('len_dEdx', s_len_dEdx, 'len_dEdx/F' )
 
 signal_train_ttree.Branch('mean', s_mean_dE_dx, 'mean/F')
 signal_train_ttree.Branch('median', s_median_dE_dx, 'median/F')
-#signal_train_ttree.Branch('RMS', s_RMS_dE_dx, 'RMS/F')
+signal_train_ttree.Branch('RMS', s_RMS_dE_dx, 'RMS/F')
 signal_train_ttree.Branch('std', s_std_dE_dx, 'std/F')
+
+signal_train_ttree.Branch('n_showers', s_n_showers, 'n_showers/F')
+signal_train_ttree.Branch('EM_e', s_EM_e, 'EM_e/F')
+signal_train_ttree.Branch('trk_e', s_trk_e, 'trk_e/F')
 
 signal_test_ttree.Branch('dEdx_first', dEdx_s_1, 'dEdx_1/F' )
 signal_test_ttree.Branch('dEdx_second', dEdx_s_2, 'dEdx_2/F' )
@@ -103,14 +111,18 @@ signal_test_ttree.Branch('dEdx_seventh_to_last', dEdx_s_minus_7, 'dEdx_-7/F' )
 signal_test_ttree.Branch('dEdx_eighth_to_last', dEdx_s_minus_8, 'dEdx_-8/F' )
 signal_test_ttree.Branch('dEdx_ninth_to_last', dEdx_s_minus_9, 'dEdx_-9/F' )
 signal_test_ttree.Branch('dEdx_tenth_to_last', dEdx_s_minus_10, 'dEdx_-10/F' )
-#signal_test_ttree.Branch('suspected_muon', s_longest_track, 'suspected_muon/F' )
+signal_test_ttree.Branch('suspected_muon', s_longest_track, 'suspected_muon/F' )
 signal_test_ttree.Branch('shortest_track', s_shortest_track, 'shortest_track/F' )
-#signal_test_ttree.Branch('len_dEdx', s_len_dEdx, 'len_dEdx/F' )
+signal_test_ttree.Branch('len_dEdx', s_len_dEdx, 'len_dEdx/F' )
 
 signal_test_ttree.Branch('mean', s_mean_dE_dx, 'mean/F')
 signal_test_ttree.Branch('median', s_median_dE_dx, 'median/F')
-#signal_test_ttree.Branch('RMS', s_RMS_dE_dx, 'RMS/F')
+signal_test_ttree.Branch('RMS', s_RMS_dE_dx, 'RMS/F')
 signal_test_ttree.Branch('std', s_std_dE_dx, 'std/F')
+
+signal_test_ttree.Branch('n_showers', s_n_showers, 'n_showers/F')
+signal_test_ttree.Branch('EM_e', s_EM_e, 'EM_e/F')
+signal_test_ttree.Branch('trk_e', s_trk_e, 'trk_e/F')
 
 for entry in signaltree:
 	cut = False
@@ -122,10 +134,12 @@ for entry in signaltree:
 	if cut == True:
 		continue
 
-	#if entry.track_mcPDG[0] != -13 and entry.track_mcPDG[0] != 321: #first of two particles is neither a muon or a kaon
-		#cut = True #TKTK
-	#if cut == True:
-		#continue
+	if entry.track_mcPDG[0] != -13 and entry.track_mcPDG[0] != 321:
+		cut = True
+	elif entry.track_mcPDG[1] != -13 and entry.track_mcPDG[1] != 321: #restricts to p Knu decay case
+		cut = True
+	if cut == True:
+		continue
 
 	longest = 0.
 	longestidx = -1 # last by default
@@ -147,7 +161,7 @@ for entry in signaltree:
 			
 	s_shortest_track[0] = shortest
 
-	if entry.idx_cal_end[shortestidx] - entry.idx_cal_start[shortestidx] <10: #cut on track length
+	if entry.idx_cal_end[shortestidx] - entry.idx_cal_start[shortestidx] < 10: #cut on track length
 		cut = True
 	if cut == True:
 		continue
@@ -173,6 +187,10 @@ for entry in signaltree:
 
 	s_len_dEdx[0] = float(length)
 
+	s_n_showers[0] = entry.n_showers
+	s_EM_e[0] = entry.Em_e
+	s_trk_e = entry.trk_e
+
 	dEdx_s_1[0] = list_dE_dx[0] #filling the dEdx nodes from our properly oriented and preselected list
 	dEdx_s_2[0] = list_dE_dx[1]
 	dEdx_s_3[0] = list_dE_dx[2]
@@ -196,7 +214,7 @@ for entry in signaltree:
 
 	
 	del list_dE_dx[length-10:length]
-	del list_dE_dx[0:10] #remove end nodes from list to condense middle nodes into the data
+	del list_dE_dx[0:10] #remove end nodes from list because we want the "average" nodes to condense the middle of the data into just a couple of points
 
 	if len(list_dE_dx) > 0:
 		s_mean_dE_dx[0] = mean(list_dE_dx)
@@ -244,6 +262,10 @@ b_median_dE_dx = array('f', [0] )
 b_RMS_dE_dx = array('f', [0] )
 b_std_dE_dx = array('f', [0] )
 
+b_n_showers = array('f', [0])
+b_EM_e = array('f', [0])
+b_trk_e = array('f', [0])
+
 background_train_ttree.Branch('dEdx_first', dEdx_b_1, 'dEdx_1/F' )
 background_train_ttree.Branch('dEdx_second', dEdx_b_2, 'dEdx_2/F' )
 background_train_ttree.Branch('dEdx_third', dEdx_b_3, 'dEdx_3/F' )
@@ -264,15 +286,18 @@ background_train_ttree.Branch('dEdx_seventh_to_last', dEdx_b_minus_7, 'dEdx_-7/F
 background_train_ttree.Branch('dEdx_eighth_to_last', dEdx_b_minus_8, 'dEdx_-8/F' )
 background_train_ttree.Branch('dEdx_ninth_to_last', dEdx_b_minus_9, 'dEdx_-9/F' )
 background_train_ttree.Branch('dEdx_tenth_to_last', dEdx_b_minus_10, 'dEdx_-10/F' )
-#background_train_ttree.Branch('suspected_muon', b_longest_track, 'suspected_muon/F' )
+background_train_ttree.Branch('suspected_muon', b_longest_track, 'suspected_muon/F' )
 background_train_ttree.Branch('shortest_track', b_shortest_track, 'shortest_track/F' )
-#background_train_ttree.Branch('len_dEdx', b_len_dEdx, 'len_dEdx/F' )
+background_train_ttree.Branch('len_dEdx', b_len_dEdx, 'len_dEdx/F' )
 
 background_train_ttree.Branch('mean', b_mean_dE_dx, 'mean/F')
 background_train_ttree.Branch('median', b_median_dE_dx, 'median/F')
-#background_train_ttree.Branch('RMS', b_RMS_dE_dx, 'RMS/F')
+background_train_ttree.Branch('RMS', b_RMS_dE_dx, 'RMS/F')
 background_train_ttree.Branch('std', b_std_dE_dx, 'std/F')
 
+background_train_ttree.Branch('n_showers', b_n_showers, 'n_showers/F')
+background_train_ttree.Branch('EM_e', b_EM_e, 'EM_e/F')
+background_train_ttree.Branch('trk_e', b_trk_e, 'trk_e/F')
 
 background_test_ttree.Branch('dEdx_first', dEdx_b_1, 'dEdx_1/F' )
 background_test_ttree.Branch('dEdx_second', dEdx_b_2, 'dEdx_2/F' )
@@ -294,14 +319,18 @@ background_test_ttree.Branch('dEdx_seventh_to_last', dEdx_b_minus_7, 'dEdx_-7/F'
 background_test_ttree.Branch('dEdx_eighth_to_last', dEdx_b_minus_8, 'dEdx_-8/F' )
 background_test_ttree.Branch('dEdx_ninth_to_last', dEdx_b_minus_9, 'dEdx_-9/F' )
 background_test_ttree.Branch('dEdx_tenth_to_last', dEdx_b_minus_10, 'dEdx_-10/F' )
-#background_test_ttree.Branch('suspected_muon', b_longest_track, 'suspected_muon/F' )
+background_test_ttree.Branch('suspected_muon', b_longest_track, 'suspected_muon/F' )
 background_test_ttree.Branch('shortest_track', b_shortest_track, 'shortest_track/F' )
-#background_test_ttree.Branch('len_dEdx', b_len_dEdx, 'len_dEdx/F' )
+background_test_ttree.Branch('len_dEdx', b_len_dEdx, 'len_dEdx/F' )
 
 background_test_ttree.Branch('mean', b_mean_dE_dx, 'mean/F')
 background_test_ttree.Branch('median', b_median_dE_dx, 'median/F')
-#background_test_ttree.Branch('RMS', b_RMS_dE_dx, 'RMS/F')
+background_test_ttree.Branch('RMS', b_RMS_dE_dx, 'RMS/F')
 background_test_ttree.Branch('std', b_std_dE_dx, 'std/F')
+
+background_test_ttree.Branch('n_showers', b_n_showers, 'n_showers/F')
+background_test_ttree.Branch('EM_e', b_EM_e, 'EM_e/F')
+background_test_ttree.Branch('trk_e', b_trk_e, 'trk_e/F')
 
 for entry in backgroundtree:
 	cut = False
@@ -312,11 +341,6 @@ for entry in backgroundtree:
 		cut = True
 	if cut == True:
 		continue
-
-	#if entry.track_mcPDG[0] != -13 and entry.track_mcPDG[0] != 321: #first of two particles is neither a muon or a kaon
-		#cut = True #TKTK
-	#if cut == True:
-		#continue
 	
 	longest = 0.
 	longestidx = -1 # last by default
@@ -338,7 +362,7 @@ for entry in backgroundtree:
 			
 	b_shortest_track[0] = shortest
 
-	if entry.idx_cal_end[shortestidx] - entry.idx_cal_start[shortestidx] <10: #cut on track length
+	if entry.idx_cal_end[shortestidx] - entry.idx_cal_start[shortestidx] < 10: #cut on track length
 		cut = True
 	if cut == True:
 		continue
@@ -363,6 +387,10 @@ for entry in backgroundtree:
 			list_dE_dx.reverse()
 
 	b_len_dEdx[0] = float(length)
+
+	b_n_showers[0] = entry.n_showers
+	b_EM_e[0] = entry.Em_e
+	b_trk_e = entry.trk_e
 
 	dEdx_b_1[0] = list_dE_dx[0]
 	dEdx_b_2[0] = list_dE_dx[1]
@@ -413,3 +441,6 @@ background_train_ttree.Write()
 test_tfile.cd()
 signal_test_ttree.Write()
 background_test_ttree.Write()
+
+print "%d out of %d events included in Signal Training Tree" % (signal_train_ttree.GetEntries(), signaltree.GetEntries())
+print "%d out of %d events included in Signal Training Tree" % (background_train_ttree.GetEntries(), backgroundtree.GetEntries())

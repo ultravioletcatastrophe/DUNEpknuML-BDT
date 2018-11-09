@@ -31,7 +31,7 @@ for branch in signal.GetListOfBranches():
 dataloader.AddSignalTree(signal, 1.0) ### second arg is weight
 dataloader.AddBackgroundTree(background, 1.0)
 dataloader.PrepareTrainingAndTestTree(TCut(''),
-		'nTrain_Signal=25000:nTrain_Background=6716:SplitMode=Random:NormMode=NumEvents:!V') # controlling training populations
+		'nTrain_Signal=18000:nTrain_Background=6828:SplitMode=Random:NormMode=NumEvents:!V') # controlling training populations
         #'nTest_Signal=2000:nTest_Background=2000:SplitMode=Random:NormMode=NumEvents:!V') # controlling testing populations
 
 # Define model

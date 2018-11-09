@@ -13,6 +13,10 @@ hist_background = ROOT.TH1D("output_b","", 200,0,250)
 for entry in signaltree:
 	if entry.n_reco_tracks != 2:
 		continue
+	if entry.track_mcPDG[0] != -13 and entry.track_mcPDG[0] != 321:
+		continue
+	elif entry.track_mcPDG[1] != -13 and entry.track_mcPDG[1] != 321: #restricts to p Knu decays
+		continue
 	longest = 0.
 	for i in xrange(entry.n_reco_tracks): #determines the longest track and its length, along with beginning/ending information
 		if entry.track_length[i] > longest:
