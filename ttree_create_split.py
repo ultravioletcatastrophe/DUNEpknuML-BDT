@@ -2,7 +2,8 @@ import ROOT
 from array import array
 from numpy import mean, median, sqrt, std, random
 
-frac_train = .7 #free parameter to separate our data into one tree for training and one tree for testing
+frac_train = 1 #free parameter to separate our data into one tree for training and one tree for testing
+random.seed(0) #1 gives error, 0 gives the way too good results #except this time 0 gave normal results
 
 signal = ROOT.TFile("signal.root") #Original files to extract from
 signaltree = signal.Get("NDKAna/Event")
@@ -82,10 +83,10 @@ signal_train_ttree.Branch('suspected_muon', s_longest_track, 'suspected_muon/F' 
 signal_train_ttree.Branch('shortest_track', s_shortest_track, 'shortest_track/F' )
 signal_train_ttree.Branch('len_dEdx', s_len_dEdx, 'len_dEdx/F' )
 
-signal_train_ttree.Branch('mean', s_mean_dE_dx, 'mean/F')
-signal_train_ttree.Branch('median', s_median_dE_dx, 'median/F')
-signal_train_ttree.Branch('RMS', s_RMS_dE_dx, 'RMS/F')
-signal_train_ttree.Branch('std', s_std_dE_dx, 'std/F')
+#signal_train_ttree.Branch('mean', s_mean_dE_dx, 'mean/F')
+#signal_train_ttree.Branch('median', s_median_dE_dx, 'median/F')
+#signal_train_ttree.Branch('RMS', s_RMS_dE_dx, 'RMS/F')
+#signal_train_ttree.Branch('std', s_std_dE_dx, 'std/F')
 
 signal_train_ttree.Branch('n_showers', s_n_showers, 'n_showers/F')
 signal_train_ttree.Branch('EM_e', s_EM_e, 'EM_e/F')
@@ -115,29 +116,50 @@ signal_test_ttree.Branch('suspected_muon', s_longest_track, 'suspected_muon/F' )
 signal_test_ttree.Branch('shortest_track', s_shortest_track, 'shortest_track/F' )
 signal_test_ttree.Branch('len_dEdx', s_len_dEdx, 'len_dEdx/F' )
 
-signal_test_ttree.Branch('mean', s_mean_dE_dx, 'mean/F')
-signal_test_ttree.Branch('median', s_median_dE_dx, 'median/F')
-signal_test_ttree.Branch('RMS', s_RMS_dE_dx, 'RMS/F')
-signal_test_ttree.Branch('std', s_std_dE_dx, 'std/F')
+#signal_test_ttree.Branch('mean', s_mean_dE_dx, 'mean/F')
+#signal_test_ttree.Branch('median', s_median_dE_dx, 'median/F')
+#signal_test_ttree.Branch('RMS', s_RMS_dE_dx, 'RMS/F')
+#signal_test_ttree.Branch('std', s_std_dE_dx, 'std/F')
 
 signal_test_ttree.Branch('n_showers', s_n_showers, 'n_showers/F')
 signal_test_ttree.Branch('EM_e', s_EM_e, 'EM_e/F')
 signal_test_ttree.Branch('trk_e', s_trk_e, 'trk_e/F')
 
+twotrk_sig = 0
+lendedx_sig = 0
+kmu2_sig = 0
+muon_len_sig = 0
 for entry in signaltree:
 	cut = False
+
+	nmu = 0
+	nnu = 0
+	npip = 0
+	npi0 = 0
+	nother = 0
+	isKmu2 = False
+	for i in range( entry.mc_npart ):
+	    if entry.mc_mother[i] == 2: # kaon daughters
+	        if entry.mc_pdg[i] == -13: nmu += 1
+	        elif entry.mc_pdg[i] == 14: nnu += 1
+	        elif entry.mc_pdg[i] == 211: npip += 1
+	        elif entry.mc_pdg[i] == 111: npi0 += 1
+	        elif entry.mc_pdg[i] < 9999: nother += 1 #restricts to Kmu2 decay mode
+
+	isKmu2 = (nmu == 1 and nnu == 1 and npip == 0 and npi0 == 0 and nother == 0)
+	if isKmu2 == False:
+		cut = True
+		kmu2_sig +=1
+	if cut == True:
+		continue #remove non Kmu2 from the count
+
 	#or deposit in entry.track_dE_dx:
 		#if deposit > 200: #cut on unreasonably high energy deposits
 			#cut = True
+
 	if entry.n_reco_tracks != 2: #if the number of reconstructed tracks isn't 2, skip
 		cut = True
-	if cut == True:
-		continue
-
-	if entry.track_mcPDG[0] != -13 and entry.track_mcPDG[0] != 321:
-		cut = True
-	elif entry.track_mcPDG[1] != -13 and entry.track_mcPDG[1] != 321: #restricts to p Knu decay case
-		cut = True
+		twotrk_sig +=1
 	if cut == True:
 		continue
 
@@ -161,10 +183,17 @@ for entry in signaltree:
 			
 	s_shortest_track[0] = shortest
 
-	if entry.idx_cal_end[shortestidx] - entry.idx_cal_start[shortestidx] < 10: #cut on track length
-		cut = True
-	if cut == True:
+	try:
+		if entry.idx_cal_end[shortestidx] - entry.idx_cal_start[shortestidx] < 10: #cut on track length
+			cut = True
+			lendedx_sig +=1
+		if cut == True:
+			continue
+	except IndexError: #need this to collect numbers on how many events are being cut
 		continue
+
+	if longest > 45 and longest < 65: #counts events with a signal-like muon
+		muon_len_sig += 1
 
 	list_dE_dx = []
 	for x in xrange(entry.idx_cal_start[shortestidx],entry.idx_cal_end[shortestidx]):
@@ -290,10 +319,10 @@ background_train_ttree.Branch('suspected_muon', b_longest_track, 'suspected_muon
 background_train_ttree.Branch('shortest_track', b_shortest_track, 'shortest_track/F' )
 background_train_ttree.Branch('len_dEdx', b_len_dEdx, 'len_dEdx/F' )
 
-background_train_ttree.Branch('mean', b_mean_dE_dx, 'mean/F')
-background_train_ttree.Branch('median', b_median_dE_dx, 'median/F')
-background_train_ttree.Branch('RMS', b_RMS_dE_dx, 'RMS/F')
-background_train_ttree.Branch('std', b_std_dE_dx, 'std/F')
+#background_train_ttree.Branch('mean', b_mean_dE_dx, 'mean/F')
+#background_train_ttree.Branch('median', b_median_dE_dx, 'median/F')
+#background_train_ttree.Branch('RMS', b_RMS_dE_dx, 'RMS/F')
+#background_train_ttree.Branch('std', b_std_dE_dx, 'std/F')
 
 background_train_ttree.Branch('n_showers', b_n_showers, 'n_showers/F')
 background_train_ttree.Branch('EM_e', b_EM_e, 'EM_e/F')
@@ -323,15 +352,18 @@ background_test_ttree.Branch('suspected_muon', b_longest_track, 'suspected_muon/
 background_test_ttree.Branch('shortest_track', b_shortest_track, 'shortest_track/F' )
 background_test_ttree.Branch('len_dEdx', b_len_dEdx, 'len_dEdx/F' )
 
-background_test_ttree.Branch('mean', b_mean_dE_dx, 'mean/F')
-background_test_ttree.Branch('median', b_median_dE_dx, 'median/F')
-background_test_ttree.Branch('RMS', b_RMS_dE_dx, 'RMS/F')
-background_test_ttree.Branch('std', b_std_dE_dx, 'std/F')
+#background_test_ttree.Branch('mean', b_mean_dE_dx, 'mean/F')
+#background_test_ttree.Branch('median', b_median_dE_dx, 'median/F')
+#background_test_ttree.Branch('RMS', b_RMS_dE_dx, 'RMS/F')
+#background_test_ttree.Branch('std', b_std_dE_dx, 'std/F')
 
 background_test_ttree.Branch('n_showers', b_n_showers, 'n_showers/F')
 background_test_ttree.Branch('EM_e', b_EM_e, 'EM_e/F')
 background_test_ttree.Branch('trk_e', b_trk_e, 'trk_e/F')
 
+twotrk_bkg = 0
+lendedx_bkg = 0
+muon_len_bkg = 0
 for entry in backgroundtree:
 	cut = False
 	#for deposit in entry.track_dE_dx:
@@ -339,6 +371,7 @@ for entry in backgroundtree:
 			#cut = True
 	if entry.n_reco_tracks != 2: #if the number of reconstructed tracks isn't 2, skip
 		cut = True
+		twotrk_bkg +=1
 	if cut == True:
 		continue
 	
@@ -362,10 +395,17 @@ for entry in backgroundtree:
 			
 	b_shortest_track[0] = shortest
 
-	if entry.idx_cal_end[shortestidx] - entry.idx_cal_start[shortestidx] < 10: #cut on track length
-		cut = True
-	if cut == True:
+	try:
+		if entry.idx_cal_end[shortestidx] - entry.idx_cal_start[shortestidx] < 10: #cut on track length
+			cut = True
+			lendedx_bkg +=1
+		if cut == True:
+			continue
+	except IndexError:
 		continue
+
+	if longest > 45 and longest < 65: #counts events with a signal-like muon
+		muon_len_bkg += 1
 
 	list_dE_dx = []
 	for x in xrange(entry.idx_cal_start[shortestidx],entry.idx_cal_end[shortestidx]):
@@ -442,5 +482,16 @@ test_tfile.cd()
 signal_test_ttree.Write()
 background_test_ttree.Write()
 
+print ""
+print "%d events in Kmu2 Signal have more or less than 2 tracks" % (twotrk_sig)
+print "%d events in 2 track Kmu2 signal have less than 10 dE/dx hits" % (lendedx_sig)
+print "%d events in restricted Signal have track length between 45cm and 65cm" % (muon_len_sig)
+print "%d out of %d events in Signal are not Kmu2" % (kmu2_sig, signaltree.GetEntries())
+print ""
+print "%d out of %d events in Background have more or less than 2 tracks" % (twotrk_bkg, backgroundtree.GetEntries())
+print "%d 2 track events in Background have less than 10 dE/dx hits" % (lendedx_bkg)
+print "%d events in restricted Background have track length between 45cm and 65cm" % (muon_len_bkg)
+print ""
 print "%d out of %d events included in Signal Training Tree" % (signal_train_ttree.GetEntries(), signaltree.GetEntries())
-print "%d out of %d events included in Signal Training Tree" % (background_train_ttree.GetEntries(), backgroundtree.GetEntries())
+print "%d out of %d events included in Background Training Tree" % (background_train_ttree.GetEntries(), backgroundtree.GetEntries())
+print ""
