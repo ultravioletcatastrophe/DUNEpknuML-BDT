@@ -7,9 +7,6 @@ from keras.layers.core import Dense, Activation
 from keras.regularizers import l2
 from keras.optimizers import SGD
 from keras import initializers
-import keras.backend as K #for custom metrics
-#from keras.callbacks import ModelCheckpoint # for custom callbacks
-from keras import models #to load the model back in along with the custom metrics
 
 # Setup TMVA
 TMVA.Tools.Instance()
